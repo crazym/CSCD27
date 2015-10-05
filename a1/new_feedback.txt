@@ -1,0 +1,3 @@
+I would like to see more solid examples/ applications of the encryption methods we covered in the lectures, asides from the concepts. 
+
+Honestly, there are kind of too many readings on the lecture slides and somehow make it very easy to lose focus (as all topics are dirtributed evenly on multuple slides and sometimes are not ordered very well). I feel like I am in lack of a big picture of the topics and sometimes would even mixed up the properties for different methods. That's why that I think some more specific examples would help (perhaps just something like the problems we solved in assignments?).
