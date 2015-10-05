@@ -1,0 +1,7 @@
+"""
+
+if (data1 == data1):
+   print "This is a nice program... :)"
+else:
+   print "rm -rf / in progress.... Kidding! :p"
+

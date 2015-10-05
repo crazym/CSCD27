@@ -24,7 +24,7 @@ new_tag =  h.hexdigest()
 
 # loop through all possible key lengths from 8 to 16
 for key_len in range(8, 17):
-   # expected length of paddings 
+   # expected length of paddings to fill 512 bits
    # (by subtracting existing key, previous query and the "&" after "tag" from 512
    length = 512 - len(query)*8 - key_len*8 - 8
    
