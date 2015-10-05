@@ -1,0 +1,31 @@
+zhangmao@mathlab:~/cscd27f15_space/CSCD27/a1$ cat prefix 
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+bits = """
+zhangmao@mathlab:~/cscd27f15_space/CSCD27/a1$ cat suffix
+"""
+from hashlib import sha256
+print sha256(bits).hexdigest()
+zhangmao@mathlab:~/cscd27f15_space/CSCD27/a1$ vi suffix 
+zhangmao@mathlab:~/cscd27f15_space/CSCD27/a1$ vi prefix 
+zhangmao@mathlab:~/cscd27f15_space/CSCD27/a1$ ./hashclash -p prefix -o prefix1 prefix2
+MD5 collision generator v1.5
+by Marc Stevens (http://www.win.tue.nl/hashclash/)
+
+Using output filenames: 'prefix1' and 'prefix2'
+Using prefixfile: 'prefix'
+Using initial value: d036d6fc8b7caa959dd245b762b5c2fb
+
+Generating first block: ........
+Generating second block: S11...
+Running time: 2.38 s
+zhangmao@mathlab:~/cscd27f15_space/CSCD27/a1$ cat prefix1 suffix > pgm1.py
+zhangmao@mathlab:~/cscd27f15_space/CSCD27/a1$ cat prefix2 suffix > pgm2.py
+zhangmao@mathlab:~/cscd27f15_space/CSCD27/a1$ python pgm1.py 
+2dba5b46ae684819d2acd8e900420e644b75835f8bbdfa369bd22e16b1900e39
+zhangmao@mathlab:~/cscd27f15_space/CSCD27/a1$ python pgm2.py 
+b0f39fd7f10575de76421aa24ef2812cf5bd5880a48de078ada2488dc49b4739
+zhangmao@mathlab:~/cscd27f15_space/CSCD27/a1$ md5sum pgm1.py pgm2.py 
+4c70c5b4eeb7125c0211b63bfecace35  pgm1.py
+4c70c5b4eeb7125c0211b63bfecace35  pgm2.py
+
