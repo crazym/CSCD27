@@ -1,0 +1,40 @@
+ngmao@mathlab:~/cscd27f15_space$ time ./hashclash -o f1 f2
+MD5 collision generator v1.5
+by Marc Stevens (http://www.win.tue.nl/hashclash/)
+
+Using output filenames: 'f1' and 'f2'
+Using initial value: 0123456789abcdeffedcba9876543210
+
+Generating first block: ..
+Generating second block: S00..........
+Running time: 1.37 s
+
+real	0m1.394s
+user	0m1.374s
+sys	0m0.004s
+zhangmao@mathlab:~/cscd27f15_space$ xxd f1
+0000000: 94b5 5f60 f27b 1db0 b3cf eb6d 0dc8 a390  .._`.{.....m....
+0000010: ecf5 266b 4927 f590 6332 38e6 9886 a1d6  ..&kI'..c28.....
+0000020: edf1 c5cd 6284 338a 4f6a bc19 f201 261d  ....b.3.Oj....&.
+0000030: 7b98 b61e 132d 7c0e eb6b f9a3 ac1e f068  {....-|..k.....h
+0000040: c595 25c7 2473 162d 2106 0d16 a926 613c  ..%.$s.-!....&a<
+0000050: ae6d 0543 f83d 4161 cd3b f6c0 595a 7d32  .m.C.=Aa.;..YZ}2
+0000060: 492f 5fbe 2f1c af77 7d6c bccf bc79 5b44  I/_./..w}l...y[D
+0000070: c85b 34ee f307 0247 351a 3a60 3f39 4a3f  .[4....G5.:`?9J?
+zhangmao@mathlab:~/cscd27f15_space$ xxd f2
+0000000: 94b5 5f60 f27b 1db0 b3cf eb6d 0dc8 a390  .._`.{.....m....
+0000010: ecf5 26eb 4927 f590 6332 38e6 9886 a1d6  ..&.I'..c28.....
+0000020: edf1 c5cd 6284 338a 4f6a bc19 f281 261d  ....b.3.Oj....&.
+0000030: 7b98 b61e 132d 7c0e eb6b f923 ac1e f068  {....-|..k.#...h
+0000040: c595 25c7 2473 162d 2106 0d16 a926 613c  ..%.$s.-!....&a<
+0000050: ae6d 05c3 f83d 4161 cd3b f6c0 595a 7d32  .m...=Aa.;..YZ}2
+0000060: 492f 5fbe 2f1c af77 7d6c bccf bcf9 5a44  I/_./..w}l....ZD
+0000070: c85b 34ee f307 0247 351a 3ae0 3f39 4a3f  .[4....G5.:.?9J?
+zhangmao@mathlab:~/cscd27f15_space$ cmp f1 f2
+f1 f2 differ: byte 20, line 1
+zhangmao@mathlab:~/cscd27f15_space$ sha256sum f1 f2
+acd479d9c19f8eb649819bbe392334034484316a3fd6e85351e15471dd5c2d5f  f1
+7c8bdd2e0d5d1f3f59aecd49accd4ec85d3e98d1a3973962fb2a3c117b5a249c  f2
+zhangmao@mathlab:~/cscd27f15_space$ md5sum f1 f2
+3ca717b6336210fd332a2a66ba79448d  f1
+3ca717b6336210fd332a2a66ba79448d  f2
