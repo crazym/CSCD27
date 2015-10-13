@@ -1,3 +1,6 @@
+# A1 Q10 b)
+# Submitted By: Maoting Zhang and Yang Wang
+
 import httplib, urlparse, urllib, sys
 from md5p import md5, padding
 
@@ -25,8 +28,8 @@ new_tag =  h.hexdigest()
 # loop through all possible key lengths from 8 to 16
 for key_len in range(8, 17):
    # expected length of paddings to fill 512 bits
-   # (by subtracting existing key, previous query and the "&" after "tag" from 512
-   length = 512 - len(query)*8 - key_len*8 - 8
+   # (by subtracting the length of existing key and previous query from 512)
+   length = 512 - len(query)*8 - key_len*8
    
    update_query = "tag=" + str(new_tag) + "&" + query + urllib.quote(padding(length)) + mark
 

@@ -1,4 +1,4 @@
-ngmao@mathlab:~/cscd27f15_space$ time ./hashclash -o f1 f2
+zhangmao@mathlab:~/cscd27f15_space$ time ./hashclash -o f1 f2
 MD5 collision generator v1.5
 by Marc Stevens (http://www.win.tue.nl/hashclash/)
 
