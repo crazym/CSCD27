@@ -1,0 +1,7 @@
+Wireshark SSL debug log 
+
+ssl_association_remove removing TCP 28004 - http handle 0xa26af28
+Private key imported: KeyID 33:1a:e5:85:09:ec:30:44:2d:34:0b:9f:0e:f0:01:19:...
+ssl_init IPv4 addr '142.1.96.121' (142.1.96.121) port '28004' filename '/home/minty/CSCD27/t5/extracted.pem' password(only for p12 file) ''
+ssl_init private key file /home/minty/CSCD27/t5/extracted.pem successfully loaded.
+association_add TCP port 28004 protocol http handle 0xa26af28
