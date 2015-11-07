@@ -1,0 +1,27 @@
+minty@minty-HP:~/CSCD27/a2/q2(master) $ openssl genrsa -out my_key.pem 2048
+Generating RSA private key, 2048 bit long modulus
+....+++
+...............+++
+e is 65537 (0x10001)
+
+minty@minty-HP:~/CSCD27/a2/q2(master) $ openssl req -new -key my_key.pem -out mycsr.pem
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:CA
+State or Province Name (full name) [Some-State]:ON
+Locality Name (eg, city) []:Toronto
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:MintyMinty
+Organizational Unit Name (eg, section) []:Computer Science
+Common Name (e.g. server FQDN or YOUR name) []:mathlab.utsc.utoronto.ca
+Email Address []:
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:
+An optional company name []:
+
