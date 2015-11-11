@@ -1,0 +1,22 @@
+import gmpy2
+def fermat_factor(n):
+    assert n % 2 != 0  # Odd integers only
+
+    a = gmpy2.isqrt(n)
+    b2 = gmpy2.square(a) - n
+    while not is_square(b2):
+        a += 1
+        b2 = gmpy2.square(a) - n
+
+    factor1 = a + gmpy2.sqrt(b2)
+    factor2 = a - gmpy2.sqrt(b2)
+    return int(factor1), int(factor2) 
+
+def is_square(n):
+    root = gmpy2.sqrt(n)
+    return root % 1 == 0
+
+n = 160589551961873197828445495034570233363247818671691660589162331874420605817572168663844611732210826017325788763868930210440223836474839418256961011937199856444619784403234362611820562816346568692454930228130352012152251747388396591243103393766491148902701037590468059675856469998354735584903579056642573592659
+
+N = 5959
+print fermat_factor(n)
