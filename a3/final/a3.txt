@@ -9,7 +9,7 @@ Note: We did Q1.A, D and Q2.A, B, C, using one question in Q2 for bonus and anot
 
 = i.Why would an attacker be interested in obtaining the cookies associated with a secure session?
 
-Cookies may include any information about the user known by the website including user’s browsing activity, account status, preferences, etc, thus by obtaining the cookies associated with a secure session the attacker might could gain unauthorized access to information or services in a computer system.
+Cookies may include any information about the user known by the website including user's browsing activity, account status, preferences, etc, thus by obtaining the cookies associated with a secure session the attacker might could gain unauthorized access to information or services in a computer system.
 
 - Attack: see mathlab submission pancoin_a.txt
 
@@ -18,7 +18,7 @@ Cookies may include any information about the user known by the website includin
 see mathlab submission pancoin_b.txt
 
 - Attack
-Username: [valid username]' and Username LIKE '%
+Username: [any username]' OR '1'='1' OR Username LIKE '%
 Password: any random characters
 
 - Patch:
