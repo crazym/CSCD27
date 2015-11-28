@@ -46,8 +46,8 @@ index 0f5a5e0..30d77cd 100644
        $this->_setCookie($result, true);
        return true;
 
-= Summary for “addslashes() versus mysql_real_escape_string()”:
-For any character encoding where there is a valid multibyte character ending in ox5c, addslashes() won’t protect the code against sql injection attack, as it will be tricked into creating a valid multibyte character(by adding slashes), rather than escaping the single quote that follows. To avoid this case, it’s better to use mysql_real_escape_string() or prepared statements or any other db abstraction libraries.
+= Summary for "addslashes() versus mysql_real_escape_string()":
+For any character encoding where there is a valid multibyte character ending in ox5c, addslashes() won't protect the code against sql injection attack, as it will be tricked into creating a valid multibyte character(by adding slashes), rather than escaping the single quote that follows. To avoid this case, it's better to use mysql_real_escape_string() or prepared statements or any other db abstraction libraries.
 
 
 
@@ -110,9 +110,9 @@ Looking at the assembly code:
 
 the address pointer for name is -80 bytes offset from the address of %rbp (the stack base pointer), while auth is -4 bytes offset from that. Therefore by padding name by 76 more bytes we will be able to overflow the name and write data to auth. 
 
-13372 to HEX is 0x343C, ox34 is ‘4’ and ox3C is ‘<’, stack growing down so to overwrite the authenticator we do “<4”. 
+13372 to HEX is 0x343C, ox34 is '4' and ox3C is '<', stack growing down so to overwrite the authenticator we do "<4". 
 
-= iii. if grow “up”
+= iii. if grow "up"
 
 No, it will not protect the code from buffer-overflow attacks. By growing upwards, it is true that we can no longer overflow a local variable to overwrite stack pointers and/or return addresses as they were now at a lower address, but the effect of overflow still exists, and those that stored at higher addresses (e.g. previous stack frame) might be overwritten. On the other hand, we could also try overflow local variables in the previous stack frame to overwrite current return addresses and/or stack pointers to achieve the attack as wanted.
 
