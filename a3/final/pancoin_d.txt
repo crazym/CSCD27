@@ -1,4 +1,4 @@
-Username: [valid username]' and Username LIKE '%
+Username: [any username]' OR '1'='1' OR Username LIKE '%
 Password: any random characters
 
 Patch:
