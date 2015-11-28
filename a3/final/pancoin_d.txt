@@ -1,0 +1,28 @@
+Username: [valid username]' and Username LIKE '%
+Password: any random characters
+
+Patch:
+
+diff --git a/a3/auth.php b/a3/auth.php
+index 0f5a5e0..30d77cd 100644
+--- a/a3/auth.php
++++ b/a3/auth.php
+@@ -19,10 +19,13 @@ class User {
+     $rs = $this->db->executeQuery($sql);
+     $salt = $rs->getValueByNr(0,0);
+     $hashedpassword = md5($password.$salt);
+-    $sql = "SELECT * FROM Person WHERE " .
+-           "Username = '$username' AND " .
+-           "Password = '$hashedpassword'";
+-    $result = $this->db->executeQuery($sql);
++    $sqlQuery = "SELECT * FROM Person WHERE " .
++           "Username = ? AND " .
++           "Password = ?";
++    $pStmt = $this->db->prepareStatement($sqlQuery);
++    $pStmt.setString(1, $username);
++    $pStmt.setString(2, $hashedpassword);
++    $result = $pStmt->executeQuery();
+     if ( $result->next() ) {
+       $this->_setCookie($result, true);
+       return true;
+
